@@ -1,10 +1,15 @@
+import { useIsFetching, useQueryClient } from '@tanstack/react-query'
 import { useGames } from '../hooks/useWorldCupData'
 import { useLocale } from '../hooks/useLocale'
 
 export function Header() {
   const { locale, setLocale, tr } = useLocale()
   const { data: games, dataUpdatedAt } = useGames()
+  const queryClient = useQueryClient()
+  const isFetching = useIsFetching() > 0
   const liveCount = games?.filter((g) => g.status === 'live').length ?? 0
+
+  const refresh = () => queryClient.invalidateQueries()
 
   return (
     <header className="sticky top-0 z-40 border-b border-pitch-700/60 bg-pitch-950/90 backdrop-blur-md">
@@ -32,6 +37,26 @@ export function Header() {
               {liveCount} {tr('live')}
             </span>
           )}
+          <button
+            onClick={refresh}
+            disabled={isFetching}
+            aria-label={tr('refresh')}
+            title={tr('refresh')}
+            className="rounded-md border border-pitch-600 p-1.5 text-ink-dim transition-colors hover:text-volt disabled:text-volt"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              <path d="M20 12a8 8 0 1 1-2.34-5.66" />
+              <path d="M20 4v4h-4" />
+            </svg>
+          </button>
           <div
             className="flex overflow-hidden rounded-md border border-pitch-600 text-[11px] font-semibold"
             role="group"

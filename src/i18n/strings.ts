@@ -21,6 +21,7 @@ const strings = {
   loading: { en: 'Loading…', de: 'Lädt…' },
   error: { en: 'Could not load data. Pull to retry.', de: 'Daten konnten nicht geladen werden.' },
   retry: { en: 'Retry', de: 'Erneut versuchen' },
+  refresh: { en: 'Refresh', de: 'Aktualisieren' },
   updated: { en: 'Updated', de: 'Aktualisiert' },
   noMatchesToday: { en: 'No matches this day', de: 'Keine Spiele an diesem Tag' },
   team: { en: 'Team', de: 'Team' },
