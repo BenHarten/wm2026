@@ -41,7 +41,21 @@ export function MatchCard({ game, teamById, stadiumById }: Props) {
     minute: '2-digit',
   })
 
-  const hasDetails = game.homeScorers.length > 0 || game.awayScorers.length > 0 || !!stadium
+  const roundLabel =
+    game.type === 'group'
+      ? `${tr('group')} ${game.group} · ${tr('matchday')} ${game.matchday}`
+      : tr(
+          (
+            {
+              r32: 'roundOf32',
+              r16: 'roundOf16',
+              qf: 'quarterFinals',
+              sf: 'semiFinals',
+              third: 'thirdPlace',
+              final: 'final',
+            } as const
+          )[game.type],
+        )
 
   return (
     <article
@@ -50,10 +64,22 @@ export function MatchCard({ game, teamById, stadiumById }: Props) {
       }`}
     >
       <button
-        className="grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-3 text-left"
-        onClick={() => hasDetails && setOpen((o) => !o)}
+        className="relative grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-3 pb-4 text-left"
+        onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
       >
+        {/* expand affordance */}
+        <svg
+          viewBox="0 0 24 24"
+          className={`absolute bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 text-ink-dim/60 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          aria-hidden
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
         {/* home */}
         <div className="flex items-center justify-end gap-2 overflow-hidden">
           <span
@@ -99,22 +125,40 @@ export function MatchCard({ game, teamById, stadiumById }: Props) {
         </div>
       </button>
 
-      {open && hasDetails && (
-        <div className="rise-in border-t border-pitch-700/60 px-3 py-2.5">
-          <div className="grid grid-cols-2 gap-2">
-            <ScorerList scorers={game.homeScorers} align="right" />
-            <ScorerList scorers={game.awayScorers} align="left" />
-          </div>
+      {open && (
+        <div className="rise-in space-y-2 border-t border-pitch-700/60 px-3 py-2.5">
+          {(game.homeScorers.length > 0 || game.awayScorers.length > 0) && (
+            <div className="grid grid-cols-2 gap-2">
+              <ScorerList scorers={game.homeScorers} align="right" />
+              <ScorerList scorers={game.awayScorers} align="left" />
+            </div>
+          )}
+          <p className="text-[11px] font-semibold tracking-wide text-volt/90 uppercase">
+            {roundLabel}
+          </p>
+          <p className="text-[11px] text-ink-dim">
+            📅{' '}
+            {game.kickoff.toLocaleString(locale === 'de' ? 'de-DE' : 'en-GB', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+            {' · '}
+            {game.kickoff.toLocaleTimeString(locale === 'de' ? 'de-DE' : 'en-GB', {
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: STADIUM_TZ[game.stadiumId],
+            })}{' '}
+            {tr('localTime')}
+          </p>
           {stadium && (
-            <p className="mt-2 text-[11px] text-ink-dim">
+            <p className="text-[11px] text-ink-dim">
               🏟 {stadium.name_en} · {stadium.city_en}, {stadium.country_en}
               {' · '}
-              {game.kickoff.toLocaleTimeString(locale === 'de' ? 'de-DE' : 'en-GB', {
-                hour: '2-digit',
-                minute: '2-digit',
-                timeZone: STADIUM_TZ[game.stadiumId],
-              })}{' '}
-              {tr('localTime')}
+              {tr('capacity')}{' '}
+              {stadium.capacity.toLocaleString(locale === 'de' ? 'de-DE' : 'en-GB')}
             </p>
           )}
         </div>
