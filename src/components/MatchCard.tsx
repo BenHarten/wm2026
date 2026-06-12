@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { STADIUM_TZ } from '../api/timezone'
 import type { Game, RawStadium, RawTeam } from '../api/types'
 import { useLocale } from '../hooks/useLocale'
 import { localizeLabel } from '../i18n/strings'
@@ -107,6 +108,13 @@ export function MatchCard({ game, teamById, stadiumById }: Props) {
           {stadium && (
             <p className="mt-2 text-[11px] text-ink-dim">
               🏟 {stadium.name_en} · {stadium.city_en}, {stadium.country_en}
+              {' · '}
+              {game.kickoff.toLocaleTimeString(locale === 'de' ? 'de-DE' : 'en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: STADIUM_TZ[game.stadiumId],
+              })}{' '}
+              {tr('localTime')}
             </p>
           )}
         </div>

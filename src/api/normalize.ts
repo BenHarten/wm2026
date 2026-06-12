@@ -1,3 +1,4 @@
+import { STADIUM_TZ, zonedWallTimeToDate } from './timezone'
 import type { Game, GameStatus, Group, RawGame, RawGroup, RawGroupTeam } from './types'
 
 /**
@@ -13,12 +14,17 @@ export function parseScorers(raw: string | undefined): string[] {
   return matches.map((m) => m.slice(1, -1).trim()).filter(Boolean)
 }
 
-/** Parse "MM/DD/YYYY HH:mm" into a local Date. */
-function parseLocalDate(raw: string): Date {
+/**
+ * Parse "MM/DD/YYYY HH:mm" (stadium-local wall time) into the actual UTC
+ * instant using the stadium's timezone, so the UI can render it in the
+ * browser's timezone. Unknown stadium → assume Eastern Time (most venues).
+ */
+function parseLocalDate(raw: string, stadiumId: string): Date {
   const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})$/)
   if (!m) return new Date(NaN)
   const [, month, day, year, hours, minutes] = m
-  return new Date(+year, +month - 1, +day, +hours, +minutes)
+  const tz = STADIUM_TZ[stadiumId] ?? 'America/New_York'
+  return zonedWallTimeToDate(+year, +month, +day, +hours, +minutes, tz)
 }
 
 function gameStatus(raw: RawGame): { status: GameStatus; minute: string | null } {
@@ -44,7 +50,7 @@ export function normalizeGame(raw: RawGame): Game {
     awayScorers: parseScorers(raw.away_scorers),
     group: raw.group,
     matchday: Number(raw.matchday) || 0,
-    kickoff: parseLocalDate(raw.local_date),
+    kickoff: parseLocalDate(raw.local_date, raw.stadium_id),
     stadiumId: raw.stadium_id,
     status,
     minute,

@@ -33,6 +33,7 @@ const strings = {
   winnerMatch: { en: 'Winner Match', de: 'Sieger Spiel' },
   loserMatch: { en: 'Loser Match', de: 'Verlierer Spiel' },
   capacity: { en: 'Capacity', de: 'Kapazität' },
+  localTime: { en: 'local time', de: 'Ortszeit' },
   legend: { en: 'Top 2 + best thirds advance', de: 'Top 2 + beste Dritte kommen weiter' },
 } as const
 

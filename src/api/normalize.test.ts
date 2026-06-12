@@ -60,12 +60,10 @@ describe('normalizeGame', () => {
     expect(g.matchday).toBe(1)
   })
 
-  test('parses local_date "MM/DD/YYYY HH:mm" into a Date', () => {
+  test('converts stadium-local local_date to the actual UTC instant', () => {
+    // stadium 1 = Mexico City (UTC-6, no DST): 13:00 wall time → 19:00 UTC
     const g = normalizeGame(finishedGroupGame)
-    expect(g.kickoff.getFullYear()).toBe(2026)
-    expect(g.kickoff.getMonth()).toBe(5) // June
-    expect(g.kickoff.getDate()).toBe(11)
-    expect(g.kickoff.getHours()).toBe(13)
+    expect(g.kickoff.toISOString()).toBe('2026-06-11T19:00:00.000Z')
   })
 
   test('detects an upcoming game', () => {
