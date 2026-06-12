@@ -21,6 +21,11 @@ function isIos(): boolean {
   return /iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1)
 }
 
+/** Home-screen shortcuts only make sense on mobile; desktop Chrome has its own omnibox install icon. */
+function isMobile(): boolean {
+  return /Android|Mobi/i.test(navigator.userAgent) || isIos()
+}
+
 export function InstallBanner() {
   const { tr } = useLocale()
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null)
@@ -29,7 +34,7 @@ export function InstallBanner() {
   const [showIosHint] = useState(() => !isStandalone() && isIos())
 
   useEffect(() => {
-    if (dismissed || isStandalone()) return
+    if (dismissed || isStandalone() || !isMobile()) return
 
     // Android/Chromium: capture the native prompt for our own button
     const onPrompt = (e: Event) => {
