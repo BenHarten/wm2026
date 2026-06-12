@@ -22,7 +22,7 @@ export function Header() {
           <h1 className="font-display text-xl leading-none tracking-wide text-ink uppercase">
             {tr('appTitle')}
           </h1>
-          <span className="font-display text-xl leading-none text-volt">26</span>
+          <span className="font-display text-xl leading-none text-volt">2026</span>
         </div>
 
         <div className="flex items-center gap-3">

@@ -1,10 +1,10 @@
 export type Locale = 'en' | 'de'
 
 const strings = {
-  appTitle: { en: 'World Cup 2026', de: 'WM 2026' },
+  appTitle: { en: 'World Cup', de: 'WM' },
   tabMatches: { en: 'Matches', de: 'Spiele' },
   tabGroups: { en: 'Groups', de: 'Gruppen' },
-  tabBracket: { en: 'Bracket', de: 'K.o.-Runde' },
+  tabBracket: { en: 'Bracket', de: 'K.O.-Phase' },
   live: { en: 'LIVE', de: 'LIVE' },
   finished: { en: 'FT', de: 'Ende' },
   today: { en: 'Today', de: 'Heute' },
