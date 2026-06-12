@@ -1,0 +1,15 @@
+{
+  "name": "WM 2026 · World Cup Live",
+  "short_name": "WM 2026",
+  "description": "World Cup 2026 — live scores, group standings and knockout bracket",
+  "start_url": "/wm2026/",
+  "scope": "/wm2026/",
+  "display": "standalone",
+  "background_color": "#0b0e0c",
+  "theme_color": "#0b0e0c",
+  "icons": [
+    { "src": "pwa-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "pwa-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

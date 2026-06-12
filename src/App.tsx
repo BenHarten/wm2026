@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LocaleProvider } from './hooks/useLocale'
 import { Header } from './components/Header'
+import { InstallBanner } from './components/InstallBanner'
 import { TabBar } from './components/TabBar'
 import { Matches } from './pages/Matches'
 import { Groups } from './pages/Groups'
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
+            <InstallBanner />
             <TabBar />
           </div>
         </HashRouter>

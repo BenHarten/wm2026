@@ -35,6 +35,17 @@ const strings = {
   loserMatch: { en: 'Loser Match', de: 'Verlierer Spiel' },
   capacity: { en: 'Capacity', de: 'Kapazität' },
   localTime: { en: 'local time', de: 'Ortszeit' },
+  installTitle: { en: 'Add to home screen', de: 'Zum Startbildschirm hinzufügen' },
+  installBody: {
+    en: 'One tap to the scores — no browser needed.',
+    de: 'Ein Tipp zu den Ergebnissen — ohne Browser.',
+  },
+  installButton: { en: 'Install', de: 'Installieren' },
+  installIosHint: {
+    en: 'Tap the Share icon, then “Add to Home Screen”.',
+    de: 'Teilen-Symbol antippen, dann „Zum Home-Bildschirm“.',
+  },
+  dismiss: { en: 'Dismiss', de: 'Schließen' },
   legend: { en: 'Top 2 + best thirds advance', de: 'Top 2 + beste Dritte kommen weiter' },
 } as const
 
